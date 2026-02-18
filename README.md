@@ -36,6 +36,7 @@ An automated voice bot built for the Pretty Good AI Engineering Challenge. It ac
 
 ## 🎭 Scenarios
 You can trigger different patient types by passing the `--scenario` flag:
+- `new_appointment`: Simple patient — flexible, just wants to book a new checkup. **Default scenario.**
 - `scheduling`: Inflexible patient — only available Fridays after 3 PM. Tests scheduling flexibility.
 - `rescheduling`: Frustrated patient — needs to move an appointment for the second time. Tests empathy.
 - `refill`: Confused and urgent patient — needs a medication refill but is unsure of the dosage. Tests accuracy.

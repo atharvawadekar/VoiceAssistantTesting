@@ -1,5 +1,10 @@
 [
     {
+        "id": "new_appointment",
+        "name": "New Appointment - Simple Booking",
+        "prompt": "You want to book a new patient appointment for a general checkup. You are flexible with timing and will accept whatever the next available slot is. Be cooperative and answer any questions the receptionist asks to complete the booking."
+    },
+    {
         "id": "scheduling",
         "name": "Scheduling - Inflexible Patient",
         "prompt": "You need to book a routine checkup. You are only available on Fridays after 3 PM. If they say no slots are available then, push back politely and ask if there are any exceptions or cancellations. Do not accept any other day unless they have absolutely nothing on Fridays."

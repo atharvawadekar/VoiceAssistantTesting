@@ -41,7 +41,7 @@ async def voice(request: Request):
     Twilio hits this endpoint when the call connects.
     """
     host = request.headers.get("host")
-    scenario = request.query_params.get("scenario", "scheduling")
+    scenario = request.query_params.get("scenario", "new_appointment")
     
     response = VoiceResponse()
     connect = Connect()
