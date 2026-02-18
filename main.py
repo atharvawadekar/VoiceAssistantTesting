@@ -42,11 +42,13 @@ async def voice(request: Request):
     """
     host = request.headers.get("host")
     scenario = request.query_params.get("scenario", "new_appointment")
+    print(f"📞 Incoming Call Webhook. Params: {request.query_params}, Resulting Scenario: {scenario}")
     
     response = VoiceResponse()
     connect = Connect()
-    # Pass scenario to websocket
-    connect.stream(url=f"wss://{host}/ws?scenario={scenario}")
+    stream = Stream(url=f"wss://{host}/ws")
+    stream.parameter(name="scenario", value=scenario)
+    connect.append(stream)
     response.append(connect)
     return Response(content=str(response), media_type="application/xml")
 
@@ -54,13 +56,10 @@ async def voice(request: Request):
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     
-    # Get scenario from query params
-    scenario = websocket.query_params.get("scenario", "new_appointment")
+    # Scenario will be loaded from the 'start' message parameters
+    print("🔌 WebSocket Connected. Waiting for start message...")
     
     from services.openai_service import load_scenario, save_transcript
-    load_scenario(scenario)
-    
-    print(f"✅ WebSocket Connected! Scenario: {scenario}")
     
     stream_sid = None
     
@@ -83,17 +82,12 @@ async def websocket_endpoint(websocket: WebSocket):
             # BUT start_listening() is blocking. So we run it in a task.
             
             async def on_deepgram_message(message, **kwargs):
-                # message is the parsed JSON result
-                # check if it's a transcript
                 try:
-                    # Duck typing: Check for transcript
-                    # Structure: .channel.alternatives[0].transcript
                     if hasattr(message, 'channel'):
                         transcript = message.channel.alternatives[0].transcript
                         if transcript and len(transcript.strip()) > 0:
                             if message.is_final:
                                 print(f"🗣️ User: {transcript}")
-                                # Get AI Reply
                                 print(f"🧠 Asking AI: {transcript}")
                                 reply = await get_chat_response(transcript)
                                 print(f"🤖 Bot: {reply}")
@@ -114,11 +108,8 @@ async def websocket_endpoint(websocket: WebSocket):
                                     })
                 except Exception as e:
                     print(f"❌ Error in on_deepgram_message: {e}")
-                    import traceback
-                    traceback.print_exc()
 
             # Register handler
-            # 'message' is the string value of EventType.MESSAGE
             dg_connection.on("message", on_deepgram_message)
             
             # 3. Start Listener Task (Non-blocking)
@@ -133,6 +124,12 @@ async def websocket_endpoint(websocket: WebSocket):
                     if data['event'] == 'start':
                         stream_sid = data['start']['streamSid']
                         print(f"📞 Stream started: {stream_sid}")
+                        
+                        # Extract scenario from custom parameters
+                        custom_params = data['start'].get('customParameters', {})
+                        scenario_id = custom_params.get('scenario', 'new_appointment')
+                        print(f"🎭 Loading Scenario from Twilio Params: {scenario_id}")
+                        load_scenario(scenario_id)
                         
                     elif data['event'] == 'media':
                         media_payload = base64.b64decode(data['media']['payload'])
