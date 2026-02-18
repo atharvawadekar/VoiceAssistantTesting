@@ -45,6 +45,51 @@ You can trigger different patient types by passing the `--scenario` flag:
 ## 📄 Transcripts
 All conversations are saved to the `transcripts/` folder. Review these files to identify and document bugs.
 
+## 🏗 Architecture & Design
+
+The system relies on a real-time **WebSocket** connection to stream audio between the phone call and your local computer.
+
+```mermaid
+sequenceDiagram
+    participant User as You (on Phone)
+    participant Twilio as Twilio Cloud
+    participant Ngrok as Ngrok Tunnel
+    participant Server as Local Python Server
+    
+    User->>Twilio: Speaks into phone
+    Twilio->>Ngrok: Streams Audio (WebSocket)
+    Ngrok->>Server: Forwards Audio
+    Server->>Server: 1. Transcribe (Deepgram Nova-2)
+    Server->>Server: 2. Think (Ollama Llama 3.1 8B)
+    Server->>Server: 3. Speak (Deepgram Aura)
+    Server->>Ngrok: Sends Audio Response
+    Ngrok->>Twilio: Forwards Audio
+    Twilio->>User: Plays Audio on Phone
+```
+
+### Why we need these pieces:
+1.  **Local Python Server (`main.py`)**: This is the "brain". It runs on your laptop. Twilio cannot see your laptop directly.
+2.  **Ngrok**: This is a "tunnel". It gives your laptop a public address so Twilio *can* see it.
+3.  **Twilio**: Connects the traditional phone network to the internet. It takes the audio from the phone and streams it to our URL.
+4.  **WebSockets**: A special type of internet connection that stays open, allowing audio to flow back and forth instantly.
+
+---
+
+## 📂 Component Breakdown
+
+### Core Logic
+- **`main.py`**: The FastAPI entry point. Exposes a `/voice` webhook for Twilio and a `/ws` websocket endpoint for the media stream.
+- **`services/deepgram_service.py`**: Handles both Speech-to-Text (STT) and Text-to-Speech (TTS) using Deepgram's low-latency API.
+- **`services/openai_service.py`**: Handles the "Brain" logic using **Llama 3.1 (via Ollama)**. Code-compatible with OpenAI but runs locally and for free.
+
+### Scripts & Data
+- **`trigger_call.py`**: A CLI script to initiate calls and select specific scenarios.
+- **`update_webhook.py`**: A helper script to update Twilio's webhook URL when ngrok restarts.
+- **`scenarios.json`**: A library of patient personas and medical goals.
+- **`transcripts/`**: Automated storage for every call interaction for later analysis.
+
+---
+
 ## 🛠 Features
 - **Ollama Integration**: Runs locally on Llama 3.1 for free, private, and unlimited testing.
 - **Dynamic Personas**: Easy to extend via `scenarios.json`.
