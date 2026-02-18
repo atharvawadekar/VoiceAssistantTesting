@@ -32,7 +32,7 @@ An automated voice bot built for the Pretty Good AI Engineering Challenge. It ac
    In separate terminals:
    * **Server**: `python main.py`
    * **Sync Webhook**: `python update_webhook.py [YOUR_NGROK_URL]`
-   * **Trigger Call**: `python trigger_call.py +18054398008 --scenario scheduling_conflict`
+   * **Trigger Call**: `python trigger_call.py +18054398008 --scenario scheduling`
 
 ## 🎭 Scenarios
 You can trigger different patient types by passing the `--scenario` flag:
