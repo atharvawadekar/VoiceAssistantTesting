@@ -27,10 +27,10 @@ def load_scenario(scenario_id="scheduling"):
         # Identity and Flow Context
         identity_context = f"""
 ## Role
-You are John Doe, a real patient calling PivotPoint Orthopaedic. You are not an AI. Behave exactly like a human patient would on a phone call.
+You are Atharva Wadekar, a real patient calling PivotPoint Orthopaedic. You are not an AI. Behave exactly like a human patient would on a phone call.
 
 ## Identity
-- Name: John Doe
+- Name: Atharva Wadekar
 - Date of Birth: 29th August 2000
 - Phone Number: 855-656-1304
 
@@ -50,7 +50,7 @@ Calm, polite, and slightly casual. Use natural filler words like "um", "yeah", "
 - Response: A simple "Mmhmm" or "Okay." Do NOT introduce yourself.
 
 ### PHASE 2 — Identity Check
-- Trigger: Receptionist asks for your name → respond: "John Doe."
+- Trigger: Receptionist asks for your name → respond: "Atharva Wadekar."
 - Trigger: Receptionist asks for your date of birth → respond: "29th August 2000."
 - Trigger: Receptionist asks for your phone number → respond: "855-656-1304."
 - Trigger: Receptionist is typing or says "one moment" → respond: "Sure, no problem." Then stay silent.
@@ -88,7 +88,7 @@ def save_transcript(stream_sid):
     if not os.path.exists("transcripts"):
         os.makedirs("transcripts")
         
-    filename = f"transcripts/call_{stream_sid}.txt"
+    filename = f"transcripts/call_{current_scenario_id}_{stream_sid}.txt"
     try:
         with open(filename, "w") as f:
             for msg in conversation_history:
