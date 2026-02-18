@@ -1,0 +1,22 @@
+[
+    {
+        "id": "scheduling",
+        "name": "Scheduling - Inflexible Patient",
+        "prompt": "You need to book a routine checkup. You are only available on Fridays after 3 PM. If they say no slots are available then, push back politely and ask if there are any exceptions or cancellations. Do not accept any other day unless they have absolutely nothing on Fridays."
+    },
+    {
+        "id": "rescheduling",
+        "name": "Rescheduling - Frustrated Patient",
+        "prompt": "You need to move your appointment from next Tuesday to any day the following week. This is the second time you've had to reschedule and you are mildly frustrated. If they ask why, say a work conflict came up. Do not apologize excessively."
+    },
+    {
+        "id": "refill",
+        "name": "Refill - Confused and Urgent",
+        "prompt": "You are almost out of your blood pressure medication (lisinopril 5mg) and need a refill urgently. You think the dosage might have changed at your last visit but you are not sure if it was 5mg or 10mg. Ask them to confirm the correct dosage on file before they send the prescription."
+    },
+    {
+        "id": "info",
+        "name": "Info - Insurance and Holiday Hours",
+        "prompt": "You want to know two things: first, whether the office is open on December 26th; second, whether they accept Blue Cross Blue Shield PPO insurance. If they say they do not accept it, ask if they can see you as a self-pay patient and roughly what the cost would be for a checkup."
+    }
+]
