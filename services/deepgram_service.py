@@ -13,9 +13,8 @@ class DeepgramService:
         if not self.api_key:
             print("❌ Error: DEEPGRAM_API_KEY is missing")
         
-        # We use a custom HTTP client specifically to bypass SSL verification issues
-        # common on some macOS Python installations for development.
-        self.httpx_client = httpx.AsyncClient(verify=False)
+        # Custom HTTP client for Deepgram
+        self.httpx_client = httpx.AsyncClient()
         self.client = AsyncDeepgramClient(api_key=self.api_key, httpx_client=self.httpx_client)
 
     async def create_stt_connection(self):
