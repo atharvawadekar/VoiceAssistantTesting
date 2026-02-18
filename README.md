@@ -36,11 +36,10 @@ An automated voice bot built for the Pretty Good AI Engineering Challenge. It ac
 
 ## 🎭 Scenarios
 You can trigger different patient types by passing the `--scenario` flag:
-- `scheduling_conflict`: Tests inflexible scheduling.
-- `insurance_confusion`: Tests for hallucinations regarding insurance.
-- `refill_emergency`: Tests empathy and urgency.
-- `reschedule_vague`: Tests handling of missing information.
-- `office_hours_edge`: Tests calendar/holiday knowledge.
+- `scheduling`: Inflexible patient — only available Fridays after 3 PM. Tests scheduling flexibility.
+- `rescheduling`: Frustrated patient — needs to move an appointment for the second time. Tests empathy.
+- `refill`: Confused and urgent patient — needs a medication refill but is unsure of the dosage. Tests accuracy.
+- `info`: Curious patient — asks about holiday hours and insurance coverage. Tests knowledge and policy handling.
 
 ## 📄 Transcripts
 All conversations are saved to the `transcripts/` folder. Review these files to identify and document bugs.
