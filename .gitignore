@@ -8,6 +8,14 @@ venv/
 
 # Data
 *.pdf
+transcripts/
+
+# Debug/Temp scripts (Scratch)
+debug_*.py
+explore_*.py
+simple_*.py
+simulate_*.py
+test_*.py
 
 # Documentation
 *.md
