@@ -93,3 +93,34 @@ sequenceDiagram
 - **Ollama Integration**: Runs locally on Llama 3.1 for free, private, and unlimited testing.
 - **Dynamic Personas**: Easy to extend via `scenarios.json`.
 - **Low Latency**: Sub-second response times using Deepgram's streaming STT/TTS.
+
+---
+
+## 🎬 Explanation (3-Minute Video Script)
+
+### What is this project? *(~30 seconds)*
+This is a **Voice Bot Patient Simulator** — an automated AI that calls a medical AI agent and pretends to be a real patient. The goal is to stress-test the AI agent by simulating realistic, tricky conversations: scheduling conflicts, medication refills, insurance questions, and more.
+
+### Why does it exist? *(~30 seconds)*
+Testing a voice AI agent manually is slow and expensive. You'd need a human to call in every time. This bot replaces that human — it can call the agent automatically, hold a realistic conversation, and save a full transcript for review. It runs entirely for free on your local machine using Ollama.
+
+### How does it work? *(~60 seconds)*
+1. You run `trigger_call.py` and choose a patient scenario (e.g., "scheduling").
+2. Twilio places an outbound call to the target AI agent.
+3. The agent's speech is streamed in real-time to your local Python server via a WebSocket tunnel (Ngrok).
+4. **Deepgram Nova-2** transcribes the speech to text in under 300ms.
+5. **Llama 3.1 8B (via Ollama)** reads the transcript and generates a realistic patient response, guided by a carefully engineered system prompt.
+6. **Deepgram Aura** converts that response back to natural-sounding speech.
+7. The audio is sent back to Twilio, and the agent hears the patient speak.
+8. Every call is saved automatically to the `transcripts/` folder.
+
+### What makes it smart? *(~30 seconds)*
+The bot uses a **Phase-Based Prompt System**:
+- **Phase 1 (Check-In)**: It only gives its name and date of birth when asked — it doesn't volunteer information.
+- **Phase 2 (Wait)**: It stays silent when the agent is typing or looking up records.
+- **Phase 3 (Goal)**: Only after the agent says "How can I help you?" does it reveal the reason for the call.
+
+This makes it behave like a real, patient human caller — not a chatbot.
+
+### What did we find? *(~30 seconds)*
+By running multiple calls, we were able to identify real bugs in the target AI agent: hallucinated time slots, misheard names, and premature responses. All findings are documented in the transcripts for review.
