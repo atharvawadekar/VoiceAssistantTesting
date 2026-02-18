@@ -55,7 +55,7 @@ async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     
     # Get scenario from query params
-    scenario = websocket.query_params.get("scenario", "scheduling_conflict")
+    scenario = websocket.query_params.get("scenario", "scheduling")
     
     from services.openai_service import load_scenario, save_transcript
     load_scenario(scenario)
