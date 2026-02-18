@@ -12,3 +12,4 @@ venv/
 # Documentation
 *.md
 !README.md
+!bug_report.md
