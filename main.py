@@ -11,15 +11,11 @@ from fastapi.responses import HTMLResponse, Response
 from twilio.twiml.voice_response import VoiceResponse, Connect
 from dotenv import load_dotenv
 
-# 1. SSL Monkey-Patch for macOS development
-ssl._create_default_https_context = ssl._create_unverified_context
+# 1. Twilio Voice Configuration
 original_legacy_connect = websockets.legacy.client.connect
 def patched_connect(*args, **kwargs):
     if 'ssl' not in kwargs:
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        kwargs['ssl'] = ctx
+        kwargs['ssl'] = ssl.create_default_context()
     return original_legacy_connect(*args, **kwargs)
 websockets.legacy.client.connect = patched_connect
 websockets.connect = patched_connect
@@ -45,7 +41,7 @@ async def voice(request: Request):
     Twilio hits this endpoint when the call connects.
     """
     host = request.headers.get("host")
-    scenario = request.query_params.get("scenario", "scheduling_conflict")
+    scenario = request.query_params.get("scenario", "scheduling")
     
     response = VoiceResponse()
     connect = Connect()

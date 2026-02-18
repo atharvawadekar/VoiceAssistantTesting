@@ -9,7 +9,7 @@ load_dotenv()
 def trigger():
     parser = argparse.ArgumentParser(description="Trigger an outbound call for the Voice Bot.")
     parser.add_argument("to", help="The destination phone number (e.g., +15550000000).")
-    parser.add_argument("--scenario", default="scheduling_conflict", help="The scenario ID from scenarios.json (default: scheduling_conflict).")
+    parser.add_argument("--scenario", default="scheduling", help="The scenario ID from scenarios.json (default: scheduling).")
     parser.add_argument("--url", help="Override the base ngrok URL (otherwise uses current Twilio config).")
     
     args = parser.parse_args()
