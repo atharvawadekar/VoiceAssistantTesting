@@ -12,7 +12,7 @@
     {
         "id": "rescheduling",
         "name": "Rescheduling - Frustrated Patient",
-        "prompt": "You need to move your appointment from next Tuesday to any day the following week. This is the second time you've had to reschedule and you are mildly frustrated. If they ask why, say a work conflict came up. Do not apologize excessively."
+        "prompt": "You need to move your appointment from next Tuesday to any day the following week. If they ask why, say a work conflict came up"
     },
     {
         "id": "refill",

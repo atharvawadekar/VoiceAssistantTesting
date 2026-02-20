@@ -86,6 +86,15 @@ async def websocket_endpoint(websocket: WebSocket):
                     if hasattr(message, 'channel'):
                         transcript = message.channel.alternatives[0].transcript
                         if transcript and len(transcript.strip()) > 0:
+                            # 🚨 BARGE-IN: If user speaks, clear Twilio buffer instantly
+                            if not message.is_final:
+                                print(f"👂 Interim Speech: {transcript} - Sending CLEAR to Twilio")
+                                await websocket.send_json({
+                                    "event": "clear",
+                                    "streamSid": stream_sid
+                                })
+                                return
+
                             if message.is_final:
                                 print(f"🗣️ User: {transcript}")
                                 print(f"🧠 Asking AI: {transcript}")
