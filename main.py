@@ -8,7 +8,7 @@ import websockets
 import websockets.legacy.client
 from fastapi import FastAPI, WebSocket, Request
 from fastapi.responses import HTMLResponse, Response
-from twilio.twiml.voice_response import VoiceResponse, Connect
+from twilio.twiml.voice_response import VoiceResponse, Connect, Stream
 from dotenv import load_dotenv
 
 # 1. Twilio Voice Configuration

@@ -7,6 +7,8 @@ client = AsyncOpenAI(
     api_key="ollama" # Placeholder key for Ollama
 )
 
+MODEL_NAME = "llama3.1:8b"
+
 import json
 
 # Global conversation history
@@ -107,7 +109,7 @@ async def get_chat_response(text_input):
         conversation_history.append({"role": "user", "content": text_input})
         
         response = await client.chat.completions.create(
-            model="llama3.1:8b",
+            model=MODEL_NAME,
             messages=conversation_history
         )
         
