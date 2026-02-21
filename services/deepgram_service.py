@@ -27,7 +27,7 @@ class DeepgramService:
             "smart_format": "true",
             "encoding": "mulaw",
             "sample_rate": "8000",
-            "endpointing": "2000",
+            "endpointing": "800",
             "interim_results": "true" 
         }
         
